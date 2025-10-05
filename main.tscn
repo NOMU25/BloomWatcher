@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://bpx2c6i610cnp"]
+
+[ext_resource type="PackedScene" uid="uid://cyign6kpkci8" path="res://scenes/globe.tscn" id="1_ctkcf"]
+[ext_resource type="Texture2D" uid="uid://dnatrvpvcq5mj" path="res://assets/8k_stars.jpg" id="1_gtvh2"]
+[ext_resource type="PackedScene" uid="uid://cumm0ku01jwoi" path="res://scenes/user_interface.tscn" id="2_oomvq"]
+[ext_resource type="Script" path="res://scripts/camera_3d.gd" id="3_em50b"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_8wo2q"]
+panorama = ExtResource("1_gtvh2")
+
+[sub_resource type="Sky" id="Sky_h6uo6"]
+sky_material = SubResource("PanoramaSkyMaterial_8wo2q")
+
+[sub_resource type="Environment" id="Environment_a1hbq"]
+background_mode = 2
+sky = SubResource("Sky_h6uo6")
+
+[node name="main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_a1hbq")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.21203)
+script = ExtResource("3_em50b")
+rotate_speed = 0.003
+zoom_speed = 1.0
+idle_rotate_speed = 0.001
+idle_delay = 0.3
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+transform = Transform3D(0.885425, 0.36807, -0.283807, -0.285789, 0.912699, 0.292072, 0.366533, -0.177499, 0.913317, 0, 0, -2.21203)
+shadow_enabled = true
+directional_shadow_mode = 1
+
+[node name="globe" parent="." instance=ExtResource("1_ctkcf")]
+
+[node name="user_interface" parent="." instance=ExtResource("2_oomvq")]
