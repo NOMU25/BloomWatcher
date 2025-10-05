@@ -1,0 +1,65 @@
+[gd_scene load_steps=12 format=3 uid="uid://cyign6kpkci8"]
+
+[ext_resource type="Texture2D" uid="uid://irc62jhp5kym" path="res://assets/8k_earth_daymap.jpg" id="1_pkik6"]
+[ext_resource type="Texture2D" uid="uid://befe7pp83qft3" path="res://assets/8k_earth_normal_map.png" id="2_4wn7k"]
+[ext_resource type="Texture2D" uid="uid://dr1ds1wb5kkkc" path="res://assets/8k_earth_clouds.jpg" id="2_dhnli"]
+[ext_resource type="Texture2D" uid="uid://bje16cupjxcg3" path="res://assets/8k_earth_specular_map.png" id="4_ffs4h"]
+[ext_resource type="Script" path="res://scripts/globe.gd" id="5_a682g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b7dl1"]
+transparency = 1
+blend_mode = 1
+albedo_texture = ExtResource("2_dhnli")
+uv1_offset = Vector3(0.585, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mnlyt"]
+next_pass = SubResource("StandardMaterial3D_b7dl1")
+diffuse_mode = 1
+albedo_texture = ExtResource("1_pkik6")
+roughness_texture = ExtResource("4_ffs4h")
+normal_enabled = true
+normal_scale = -2.0
+normal_texture = ExtResource("2_4wn7k")
+rim_enabled = true
+rim = 0.03
+rim_tint = 1.0
+clearcoat = 0.8
+clearcoat_roughness = 1.0
+anisotropy_enabled = true
+anisotropy = 1.0
+ao_light_affect = 0.55
+refraction_scale = -0.91
+uv1_offset = Vector3(0.59, 0, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_kbyro"]
+material = SubResource("StandardMaterial3D_mnlyt")
+radius = 1.0
+height = 2.0
+radial_segments = 128
+rings = 64
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tx8ki"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 5.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_cfp7q"]
+material = SubResource("StandardMaterial3D_tx8ki")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2odtl"]
+radius = 0.05
+
+[node name="globe" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_kbyro")
+script = ExtResource("5_a682g")
+
+[node name="marker" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="marker"]
+mesh = SubResource("SphereMesh_cfp7q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="marker"]
+shape = SubResource("SphereShape3D_2odtl")
